@@ -12,9 +12,9 @@ public class PickupTruckController : MonoBehaviour
     [SerializeField] Transform RearLeftTransform;
     [SerializeField] Transform RearRightTransform;
 
-    [SerializeField] float acceleration = 500f;
-    [SerializeField] float breakingForce = 300f;
-    [SerializeField] float maxTurnAngle = 15f;
+    [SerializeField] float acceleration = 1000f;
+    [SerializeField] float breakingForce = 700f;
+    [SerializeField] float maxTurnAngle = 45f;
 
     float currentAcceleration = 0f;
     float currentBreakingForce = 0f;
