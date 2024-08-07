@@ -1,39 +1,37 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AntiRollBar : MonoBehaviour {
 
-	[SerializeField] WheelCollider WheelL;
-    [SerializeField] WheelCollider WheelR;
+	[SerializeField] WheelCollider WheelLeft;
+    [SerializeField] WheelCollider WheelRight;
     [SerializeField] float AntiRoll = 5000.0f;
 
-	Rigidbody car;
+	Rigidbody carRigidbody;
 
-    void Awake() => car = GetComponent<Rigidbody>();
+    void Awake() => carRigidbody = GetComponent<Rigidbody>();
 
     void FixedUpdate ()
 	{
 		WheelHit hit;
-		float travelL = 1.0f;
-		float travelR = 1.0f;
+		float travelLeft = 1.0f;
+		float travelRight = 1.0f;
 
-		bool groundedL = WheelL.GetGroundHit (out hit);
+		bool groundedLeft = WheelLeft.GetGroundHit(out hit);
 		
-		if (groundedL)
-            travelL = (-WheelL.transform.InverseTransformPoint(hit.point).y - WheelL.radius) / WheelL.suspensionDistance;
+		if (groundedLeft)
+            travelLeft = (-WheelLeft.transform.InverseTransformPoint(hit.point).y - WheelLeft.radius) / WheelLeft.suspensionDistance;
 
-        bool groundedR = WheelR.GetGroundHit (out hit);
+		bool groundedRight = WheelRight.GetGroundHit(out hit);
 		
-		if (groundedR)
-            travelR = (-WheelR.transform.InverseTransformPoint(hit.point).y - WheelR.radius) / WheelR.suspensionDistance;
+		if (groundedRight)
+            travelRight = (-WheelRight.transform.InverseTransformPoint(hit.point).y - WheelRight.radius) / WheelRight.suspensionDistance;
 
-        float antiRollForce = (travelL - travelR) * AntiRoll;
+        float antiRollForce = (travelLeft - travelRight) * AntiRoll;
 
-		if (groundedL)
-			car.AddForceAtPosition (WheelL.transform.up * -antiRollForce, WheelL.transform.position);
+		if (groundedLeft)
+			carRigidbody.AddForceAtPosition (WheelLeft.transform.up * -antiRollForce, WheelLeft.transform.position);
 
-		if (groundedR)
-			car.AddForceAtPosition (WheelR.transform.up * antiRollForce, WheelR.transform.position);
+		if (groundedRight)
+			carRigidbody.AddForceAtPosition (WheelRight.transform.up * antiRollForce, WheelRight.transform.position);
 	}
 }
